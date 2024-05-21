@@ -1,14 +1,28 @@
+import clsx from 'clsx';
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export const Navigation: FC = () => {
   return (
-    <div>
-      <h1>Basic Navigation</h1>
-      <div>
-        <Link to={'/books'}>Classic Book catalog</Link>
-        <Link to={'/fiction'}>Fiction Book catalog</Link>
-      </div>
-    </div>
+    <header className='py-5'>
+      <nav className='flex justify-center items-center gap-6'>
+        <NavLink
+          className={({ isActive }) =>
+            clsx('border p-2.5 rounded-md', isActive && 'shadow-md bg-blue-100')
+          }
+          to={'/books'}
+        >
+          Classic Book catalog
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            clsx('border p-2.5 rounded-md', isActive && 'shadow-md bg-blue-100')
+          }
+          to={'/fiction'}
+        >
+          Fiction Book catalog
+        </NavLink>
+      </nav>
+    </header>
   );
 };

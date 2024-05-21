@@ -10,10 +10,10 @@ export const ClassicBooksPage = () => {
   const data = useLoaderData() as TClassicBook;
 
   return (
-    <div>
+    <>
       <Title>Сторінка класичних альбомів</Title>
       <div>{data.id}</div>
       <ButtonGroup />
-    </div>
+    </>
   );
 };

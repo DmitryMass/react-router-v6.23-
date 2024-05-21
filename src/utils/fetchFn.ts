@@ -1,5 +1,8 @@
 import axios from 'axios';
+import { activateSlowRequest } from './activateSlowRequest';
+import { toast } from 'sonner';
 
+// Basic Page
 export const getClassicBooks = async () => {
   try {
     const data = await axios.get('https://jsonplaceholder.typicode.com/albums');
@@ -12,31 +15,24 @@ export const getClassicBooks = async () => {
   }
 };
 
-export const getFictionBooks = async (fiebedraValue: string | null) => {
-  console.log(fiebedraValue);
+// Updated Page Slowed for loading
+export const getFictionBooks = async () => {
   try {
-    // const data = await axios.get(
-    //   `https://jsonplaceholder.typicode.com/albums/${
-    //     fiebedraValue === 'yes' ? 1 : 2
-    //   }`
-    // );
+    await activateSlowRequest(2000);
     const data = await axios.get(
       `http://localhost:3001/catalog/archive/books?page=1&limit=10`
     );
 
-    // throw new Response('', {
-    //   statusText: 'S',
-    //   status: 403,
-    // });
-
-    if (data.status === 200) {
-      return data.data;
-    }
+    if (data.status === 200) return data.data;
   } catch (err: any) {
-    console.log(err);
-    throw new Response('SOME ERROR', {
-      statusText: err.statusText,
-      status: err.status,
+    const clientToastMessage =
+      err.response.data.error || 'Вибачте виникла помилка';
+    toast.error(clientToastMessage);
+
+    const browserError = 'Oops, sorry, something went wrong';
+    throw new Response(browserError, {
+      statusText: browserError,
+      status: err.response.data.statusCode || 500,
     });
   }
 };

@@ -26,6 +26,7 @@ export const router = createBrowserRouter([
             errorElement: <ErrorComponent />,
             element: <ClassicBooksPage />,
             loader: async ({ request }) => {
+              // request url for getting queryparams if needed
               const data = await axios.get(
                 `https://jsonplaceholder.typicode.com/albums/${
                   useGetQueryParams(new URL(request.url)) === 'yes' ? 1 : 2
@@ -45,12 +46,10 @@ export const router = createBrowserRouter([
             index: true,
             errorElement: <ErrorComponent />,
             element: <FictionBooksPage />,
-            loader: async ({ request }) => {
-              // request url for getting queryparams if needed
-              return defer({
-                data: getFictionBooks(useGetQueryParams(new URL(request.url))),
-              });
-            },
+            loader: async () =>
+              defer({
+                data: getFictionBooks(),
+              }),
           },
         ],
       },
